@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  windetect Sysmon configuration: log the kill chain, drop the flood.
+
+  Default behavior is to log everything; the onmatch="exclude" rules below
+  remove the noisiest benign processes so the capture windows stay reviewable.
+  Derived for this project's capture needs, not a copy of any upstream config.
+-->
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>SHA256</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+
+      <ProcessCreate onmatch="exclude">
+        <Image condition="end with">WerFault.exe</Image>
+        <Image condition="end with">SearchProtocolHost.exe</Image>
+        <Image condition="end with">SearchFilterHost.exe</Image>
+        <Image condition="end with">backgroundTaskHost.exe</Image>
+        <Image condition="end with">MusNotification.exe</Image>
+        <Image condition="end with">sihost.exe</Image>
+        <ParentImage condition="end with">TrustedInstaller.exe</ParentImage>
+      </ProcessCreate>
+
+      <!-- LSASS access is the credential-access signal; log only that. -->
+      <ProcessAccess onmatch="include">
+        <TargetImage condition="end with">lsass.exe</TargetImage>
+      </ProcessAccess>
+      <ProcessAccess onmatch="exclude" />
+
+      <NetworkConnect onmatch="exclude">
+        <Image condition="end with">svchost.exe</Image>
+        <Image condition="end with">chrome.exe</Image>
+        <Image condition="end with">msedge.exe</Image>
+        <Image condition="end with">System</Image>
+      </NetworkConnect>
+
+      <FileCreate onmatch="exclude">
+        <Image condition="end with">SearchIndexer.exe</Image>
+        <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution</TargetFilename>
+        <TargetFilename condition="contains">\AppData\Local\Packages\</TargetFilename>
+      </FileCreate>
+
+      <RegistryEvent onmatch="exclude">
+        <Image condition="end with">svchost.exe</Image>
+        <Image condition="end with">services.exe</Image>
+        <Image condition="end with">TrustedInstaller.exe</Image>
+        <Image condition="end with">SearchIndexer.exe</Image>
+        <Image condition="end with">WmiPrvSE.exe</Image>
+      </RegistryEvent>
+
+      <FileDelete onmatch="exclude">
+        <TargetFilename condition="contains">\AppData\Local\Google\Chrome</TargetFilename>
+        <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\Temp</TargetFilename>
+      </FileDelete>
+
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

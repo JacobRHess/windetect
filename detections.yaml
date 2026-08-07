@@ -1,0 +1,44 @@
+# Single source of truth. The replay engine, the test suite and the coverage
+# report are all generated from or checked against this file. Adding a
+# detection means adding an entry here plus one rules/<id>.spl and two fixtures
+# sliced from real captures (fixtures/<id>.attack.json,
+# fixtures/<id>.benign.json) - nothing else.
+#
+# Fields are the production Windows field names: rules written here run
+# unmodified in a Splunk deployment ingesting Sysmon, Security and PowerShell
+# operational channels.
+version: 1
+
+stages:
+  - id: 01-initial-access-execution
+    techniques: [T1566.001, T1204.002, T1059.001]
+  - id: 02-defense-evasion
+    techniques: [T1070.001, T1036.003]
+  - id: 03-credential-access
+    techniques: [T1003.001]
+  - id: 04-discovery
+    techniques: [T1087.002, T1069.002]
+  - id: 05-persistence
+    techniques: [T1547.001, T1053.005, T1543.003]
+  - id: 06-privilege-escalation
+    techniques: [T1548.002]
+  - id: 07-lateral-movement
+    techniques: [T1021.002]
+  - id: 08-c2-exfiltration
+    techniques: [T1071.001, T1560.001]
+
+detections: []
+# Example entry (lands with the stage 03 capture):
+#
+#   - id: lsass-access-untrusted-caller
+#     title: LSASS process access by a non-standard caller
+#     rule: rules/lsass-access-untrusted-caller.spl
+#     stage: 03-credential-access
+#     attack: [T1003.001]
+#     slice:                      # which capture events feed this detection's
+#       sysmon: [10]              # fixtures; omitted = whole capture window
+#     fixtures:
+#       - events: fixtures/lsass-access-untrusted-caller.attack.json
+#         expect: attack
+#       - events: fixtures/lsass-access-untrusted-caller.benign.json
+#         expect: benign

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Raw exports from the VM are large and host-specific; the sliced fixtures
+# committed under fixtures/ are the durable artifact.
+captures/**/*.evtx
+captures/**/*.xml

@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --extra dev
+      - run: uv run ruff check
+      - run: uv run ruff format --check
+      - run: uv run mypy
+      - run: uv run pytest --cov
+
+  validate:
+    # Live-Splunk gate: boots Splunk 9.4 as a service container and runs the
+    # replay-marked tests against it. The client bootstraps index, props and
+    # HEC token over REST, so no conf mounts are needed here.
+    runs-on: ubuntu-latest
+    services:
+      splunk:
+        image: splunk/splunk:9.4.2
+        env:
+          SPLUNK_START_ARGS: --accept-license
+          SPLUNK_PASSWORD: windetect_dev_2026
+        ports:
+          - 8089:8089
+          - 8088:8088
+        options: >-
+          --health-cmd "curl -fk https://localhost:8089/services/server/info || exit 1"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 40
+          --health-start-period 120s
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --extra dev
+      - run: uv run pytest -m replay -v

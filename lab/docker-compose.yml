@@ -1,0 +1,26 @@
+# Local lab: a single-node Splunk, the same engine the CI validate job boots.
+# Bring it up, then `uv run pytest -m replay` replays every fixture through it.
+#
+#   docker compose -f lab/docker-compose.yml up -d
+#
+# Splunk listens on 8000 (web), 8088 (HEC), 8089 (REST). Throwaway dev
+# credentials; nothing here is a secret.
+services:
+  splunk:
+    image: splunk/splunk:9.4.2
+    container_name: wd-splunk
+    ports:
+      - "8000:8000"
+      - "8088:8088"
+      - "8089:8089"
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: windetect_dev_2026
+    volumes:
+      # Writable, not :ro - the image's first-boot provisioning chowns this dir.
+      - ./splunk:/opt/splunk/etc/apps/windetect/local
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "https://localhost:8089/services/server/info"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
