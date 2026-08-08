@@ -1,5 +1,8 @@
 # windetect
 
+[![CI](https://github.com/JacobRHess/windetect/actions/workflows/ci.yml/badge.svg)](https://github.com/JacobRHess/windetect/actions/workflows/ci.yml)
+[![Security](https://github.com/JacobRHess/windetect/actions/workflows/security.yml/badge.svg)](https://github.com/JacobRHess/windetect/actions/workflows/security.yml)
+
 **A Windows intrusion captured on real telemetry, and the Splunk detections that proved themselves against it.**
 
 Most detection writeups ship rules with synthetic fixtures, or fixtures with no rules. This one ships neither synthetic data nor untested rules: one adversary walks a full kill chain across a real Windows host, every stage is recorded by the same sensors a SOC already runs (Sysmon, Windows Security, PowerShell script-block logging), and every detection must fire on the captured attack trace and stay silent on a captured benign day through the same host, asserted in CI against a live Splunk container.
@@ -32,7 +35,7 @@ uv run windetect new <id> --stage 03 --title ... --technique T1003.001 --slice s
 
 `capture` applies each detection's `slice` spec (channel → event codes) to the export and writes the matching events verbatim into the fixture — event-code level only, so rules still earn their matches on real field values. Slicing is loud: an empty slice aborts, and every written fixture is schema-validated before it lands.
 
-Splunk connection defaults to the local lab (`https://localhost:8089`/`:8088`, `admin`/`windetect_dev_2026`, index `windetect`); override with `WD_SPLUNK_URL`, `WD_SPLUNK_HEC_URL`, `WD_SPLUNK_USER`, `WD_SPLUNK_PASSWORD`, `WD_SPLUNK_INDEX` or the matching `--flags`. The client bootstraps the index, `KV_MODE=json` props, and the HEC input over REST, so it works identically against the docker lab and the CI service container.
+Splunk connection defaults to the local lab (`https://localhost:8089`/`:8088`, `admin`/`windetect_dev_2026`, index `windetect`); override with `WD_SPLUNK_URL`, `WD_SPLUNK_HEC_URL`, `WD_SPLUNK_USER`, `WD_SPLUNK_PASSWORD`, `WD_SPLUNK_INDEX` or the matching `--flags`. Set `WD_SPLUNK_VERIFY=true` to verify TLS against a trusted endpoint (off by default for the lab's self-signed cert). The client bootstraps the index, `KV_MODE=json` props, and the HEC input over REST, so it works identically against the docker lab and the CI service container.
 
 ## The rule contract
 

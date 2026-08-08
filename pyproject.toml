@@ -23,6 +23,7 @@ dev = [
     "types-defusedxml>=0.7",
     "bandit>=1.7",
     "pip-audit>=2.7",
+    "zizmor>=1.25.2",
 ]
 
 [project.scripts]

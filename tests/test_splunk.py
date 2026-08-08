@@ -93,6 +93,19 @@ def test_config_from_env(monkeypatch):
         password="hunter2",
         index="other",
     )
+    assert not config.verify
+
+
+@pytest.mark.parametrize("value", ["1", "true", "YES", " on "])
+def test_config_verify_from_env(monkeypatch, value):
+    monkeypatch.setenv("WD_SPLUNK_VERIFY", value)
+    assert config_from_env().verify
+
+
+def test_sessions_respect_verify():
+    client = SplunkClient(SplunkConfig(verify=True))
+    assert client._session.verify is True
+    assert client._hec_session.verify is True
 
 
 def make_event() -> dict[str, Any]:

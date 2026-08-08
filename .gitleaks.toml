@@ -1,0 +1,15 @@
+[extend]
+useDefault = true
+
+# These are not secrets: they configure an ephemeral Splunk that exists only for a local
+# `docker compose up` or a CI run, is never exposed, and is thrown away after. They live in
+# the repo on purpose so the lab is reproducible.
+[allowlist]
+description = "Lab-only, non-secret dev credentials for an ephemeral Splunk"
+regexes = [
+  '''windetect_dev_2026''',
+  '''00000000-0000-0000-0000-000000000000''',
+]
+paths = [
+  '''lab/splunk/inputs\.conf''',
+]
