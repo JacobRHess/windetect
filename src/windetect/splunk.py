@@ -38,6 +38,9 @@ ENV_HEC_URL = "WD_SPLUNK_HEC_URL"
 ENV_USER = "WD_SPLUNK_USER"
 ENV_PASSWORD = "WD_SPLUNK_PASSWORD"  # noqa: S105  # nosec B105
 ENV_INDEX = "WD_SPLUNK_INDEX"
+ENV_VERIFY = "WD_SPLUNK_VERIFY"
+
+_TRUTHY = frozenset({"1", "true", "yes", "on"})
 
 _HEC_BATCH = 500
 
@@ -55,6 +58,8 @@ class SplunkConfig:
     username: str = DEFAULT_USER
     password: str = DEFAULT_PASSWORD
     index: str = DEFAULT_INDEX
+    # Off for the lab's self-signed localhost cert; on for a trusted endpoint.
+    verify: bool = False
 
 
 def config_from_env() -> SplunkConfig:
@@ -65,6 +70,7 @@ def config_from_env() -> SplunkConfig:
         username=os.environ.get(ENV_USER, defaults.username),
         password=os.environ.get(ENV_PASSWORD, defaults.password),
         index=os.environ.get(ENV_INDEX, defaults.index),
+        verify=os.environ.get(ENV_VERIFY, "").strip().lower() in _TRUTHY,
     )
 
 
@@ -121,11 +127,11 @@ class SplunkClient:
         self._timeout = timeout
         self._session = requests.Session()
         self._session.auth = (config.username, config.password)
-        self._session.verify = False
+        self._session.verify = config.verify
         # Session auth would overwrite the per-request HEC token header with
         # Basic credentials, so ingest gets its own auth-less session.
         self._hec_session = requests.Session()
-        self._hec_session.verify = False
+        self._hec_session.verify = config.verify
         self._hec_token: str | None = None
 
     @property
