@@ -1,0 +1,9 @@
+(EventCode=4688 OR EventCode=1) (CommandLine="*comsvcs*" CommandLine="*MiniDump*" OR CommandLine="*procdump*" CommandLine="*lsass*" OR CommandLine="*sekurlsa*" OR CommandLine="*mimikatz*" OR CommandLine="*nanodump*")
+| stats count as dump_events
+    values(CommandLine) as command_lines
+    values(EventCode) as event_codes
+    values(Computer) as hosts
+    min(_time) as first_seen
+    max(_time) as last_seen
+| where dump_events > 0
+| eval detection="lsass-dump-command-line", technique="T1003.001"

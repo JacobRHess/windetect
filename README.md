@@ -46,6 +46,7 @@ Rules are plain SPL searching the production field names, and the replay harness
 - starts with bare search terms (no leading `|` or `search`)
 - never binds `index=`, `earliest=`, or `latest=` — index/time binding belongs to the deployment
 - outputs one row per detection (zero rows = no detection); windowed logic operates on `_time`, which the harness sets from each captured event's own timestamp
+- if it aggregates (`| stats`), it must drop the empty aggregate row — Splunk emits one `count=0` row even when nothing matched, so end the rule with `| where <count> > 0` or the benign fixture will always "fire"
 
 `windetect validate` enforces all of this before any replay runs.
 

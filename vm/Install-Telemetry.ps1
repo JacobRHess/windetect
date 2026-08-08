@@ -19,9 +19,17 @@ if (-not (Test-Path $Sysmon)) {
 $Config = Join-Path $PSScriptRoot 'sysmon-config.xml'
 if (-not (Test-Path $Config)) { throw "missing $Config" }
 
-Write-Host 'Installing Sysmon with windetect config'
-& $Sysmon -accepteula -i $Config
-if ($LASTEXITCODE -ne 0) { throw "Sysmon install exited $LASTEXITCODE" }
+# Idempotent: if the Sysmon service is already present, update its config in
+# place instead of reinstalling (a second -i exits 1242 and would throw).
+if (Get-Service Sysmon64 -ErrorAction SilentlyContinue) {
+    Write-Host 'Sysmon already installed; applying config update'
+    & $Sysmon -accepteula -c $Config
+    if ($LASTEXITCODE -ne 0) { throw "Sysmon config update exited $LASTEXITCODE" }
+} else {
+    Write-Host 'Installing Sysmon with windetect config'
+    & $Sysmon -accepteula -i $Config
+    if ($LASTEXITCODE -ne 0) { throw "Sysmon install exited $LASTEXITCODE" }
+}
 
 Write-Host 'Enabling PowerShell script-block logging'
 $sbKey = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging'
@@ -40,10 +48,12 @@ $policies = @(
     @('Special Logon', 'enable', 'disable'),                # 4672
     @('Process Creation', 'enable', 'disable'),             # 4688
     @('Other Object Access Events', 'enable', 'disable'),   # 4697, 4698
-    @('Log Deletion', 'enable', 'disable')                  # 1102 (Security log cleared)
+    @('Other Logon/Logoff Events', 'enable', 'disable')     # 1102 (Security log cleared)
 )
 foreach ($p in $policies) {
-    & auditpol /set /subcategory:$p[0] /success:$p[1] /failure:$p[2]
+    # Quote each name:value argument: unquoted "/subcategory:$p[0]" is passed
+    # literally and auditpol rejects it with error 87.
+    & auditpol /set "/subcategory:$($p[0])" "/success:$($p[1])" "/failure:$($p[2])"
     if ($LASTEXITCODE -ne 0) {
         throw ("auditpol failed for '{0}'; run 'auditpol /list /subcategory:*' and fix the name" -f $p[0])
     }

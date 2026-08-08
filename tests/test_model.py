@@ -19,8 +19,11 @@ def test_repo_detections_yaml_loads(repo_root: Path):
     model = load_model(repo_root)
     assert model.version == 1
     assert len(model.stages) == 8
-    assert model.detections == ()
     assert model.stage("03").id == "03-credential-access"
+    detection = model.detections[0]
+    assert detection.id == "lsass-dump-command-line"
+    assert detection.stage == "03-credential-access"
+    assert detection.attack == ("T1003.001",)
 
 
 def test_full_model_loads(make_root):

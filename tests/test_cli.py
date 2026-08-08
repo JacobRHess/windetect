@@ -16,12 +16,14 @@ def run_cli(*argv: str) -> int:
 
 def test_validate_repo(repo_root: Path, capsys):
     assert run_cli("--root", str(repo_root), "validate") == 0
-    assert "0 detections" in capsys.readouterr().out
+    assert "1 detections" in capsys.readouterr().out
 
 
 def test_report_repo(repo_root: Path, capsys):
     assert run_cli("--root", str(repo_root), "report") == 0
-    assert "No detections yet" in capsys.readouterr().out
+    out = capsys.readouterr().out
+    assert "lsass-dump-command-line" in out
+    assert "Detections: 1" in out
 
 
 def test_report_repo_markdown(repo_root: Path, capsys):
