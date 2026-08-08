@@ -12,6 +12,7 @@ from windetect.splunk import (
     DEFAULT_HEC_URL,
     DEFAULT_PASSWORD,
     DEFAULT_REST_URL,
+    DEFAULT_USER,
     SplunkClient,
     SplunkConfig,
     SplunkError,
@@ -48,7 +49,14 @@ def make_client(responses: list[FakeResponse]) -> tuple[SplunkClient, FakeSessio
     client = SplunkClient(SplunkConfig())
     session = FakeSession(responses)
     client._session = session
+    client._hec_session = session
     return client, session
+
+
+def test_sessions_have_distinct_auth():
+    client = SplunkClient(SplunkConfig())
+    assert client._session.auth == (DEFAULT_USER, DEFAULT_PASSWORD)
+    assert client._hec_session.auth is None
 
 
 TOKEN_RESPONSE = {"entry": [{"content": {"token": "tok-123"}}]}
@@ -119,10 +127,15 @@ def test_hec_batch_multiple_events():
 
 
 def test_parse_search_export():
-    assert parse_search_export({"results": [{"a": "1"}]}) == [{"a": "1"}]
-    assert parse_search_export({"preview": False}) == []
+    body = (
+        '{"preview": false, "offset": 0, "result": {"a": "1"}}\n'
+        '{"preview": false, "offset": 1, "result": {"a": "2"}, "lastrow": true}\n'
+    )
+    assert parse_search_export(body) == [{"a": "1"}, {"a": "2"}]
+    assert parse_search_export("") == []
+    assert parse_search_export('{"preview": true, "result": {"a": "0"}}') == []
     with pytest.raises(SplunkError, match="malformed"):
-        parse_search_export({"results": "nope"})
+        parse_search_export('{"preview": false, "result": "nope"}')
 
 
 def test_bootstrap_adopts_existing_objects():
@@ -209,15 +222,29 @@ def test_send_events_non_json_ack():
 
 
 def test_oneshot_search_parses_rows():
-    client, session = make_client(
-        [*bootstrap_ok_responses(), FakeResponse(200, {"results": [{"count": "2"}]})]
-    )
+    ndjson = '{"preview": false, "offset": 0, "result": {"count": "2"}, "lastrow": true}'
+    client, session = make_client([*bootstrap_ok_responses(), FakeResponse(200, text=ndjson)])
     client.bootstrap()
     rows = client.oneshot_search("windetect | stats count", earliest="a", latest="b")
     assert rows == [{"count": "2"}]
     search_call = session.calls[-1]
     assert search_call[2]["data"]["earliest_time"] == "a"
     assert search_call[2]["data"]["latest_time"] == "b"
+
+
+def test_oneshot_search_prefixes_bare_keywords():
+    empty = FakeResponse(200, text="")
+    client, session = make_client([*bootstrap_ok_responses(), empty, empty, empty])
+    client.bootstrap()
+    client.oneshot_search("windetect | stats count")
+    client.oneshot_search("| rest /services/data/indexes")
+    client.oneshot_search("search windetect | stats count")
+    searches = [call[2]["data"]["search"] for call in session.calls if "jobs/export" in call[1]]
+    assert searches == [
+        "search windetect | stats count",
+        "| rest /services/data/indexes",
+        "search windetect | stats count",
+    ]
 
 
 def test_oneshot_search_error_payload():
@@ -238,38 +265,37 @@ def test_oneshot_search_error_without_messages():
 def test_oneshot_search_non_json():
     client, _ = make_client([*bootstrap_ok_responses(), FakeResponse(500, text="boom")])
     client.bootstrap()
+    with pytest.raises(SplunkError, match="boom"):
+        client.oneshot_search("whatever")
+
+
+def test_oneshot_search_malformed_body():
+    client, _ = make_client([*bootstrap_ok_responses(), FakeResponse(200, text="not json")])
+    client.bootstrap()
     with pytest.raises(SplunkError, match="non-JSON"):
         client.oneshot_search("whatever")
 
 
+def _count_row(count: str) -> FakeResponse:
+    return FakeResponse(200, text=f'{{"preview": false, "result": {{"count": "{count}"}}}}')
+
+
 def test_count_events_and_wait_indexed(monkeypatch):
     monkeypatch.setattr(splunk_mod.time, "sleep", lambda _: None)
-    client, _ = make_client(
-        [
-            *bootstrap_ok_responses(),
-            FakeResponse(200, {"results": [{"count": "1"}]}),
-            FakeResponse(200, {"results": [{"count": "2"}]}),
-        ]
-    )
+    client, _ = make_client([*bootstrap_ok_responses(), _count_row("1"), _count_row("2")])
     client.bootstrap()
     client.wait_indexed("tag", 2)
 
 
 def test_wait_indexed_times_out():
-    client, _ = make_client(
-        [
-            *bootstrap_ok_responses(),
-            FakeResponse(200, {"results": [{"count": "0"}]}),
-            FakeResponse(200, {"results": [{"count": "0"}]}),
-        ]
-    )
+    client, _ = make_client([*bootstrap_ok_responses(), _count_row("0"), _count_row("0")])
     client.bootstrap()
     with pytest.raises(SplunkError, match="became searchable"):
         client.wait_indexed("tag", 5, timeout=0.0001)
 
 
 def test_count_events_zero_when_no_rows():
-    client, _ = make_client([*bootstrap_ok_responses(), FakeResponse(200, {})])
+    client, _ = make_client([*bootstrap_ok_responses(), FakeResponse(200, text="")])
     client.bootstrap()
     assert client.count_events("tag") == 0
 

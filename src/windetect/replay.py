@@ -88,7 +88,7 @@ def replay_detection(
         client.wait_indexed(tag, len(events))
 
         earliest, latest = _time_bounds(events)
-        spl = f'{client.index} wd_run="{tag}" {rule_text}'
+        spl = f'index={client.index} wd_run="{tag}" {rule_text}'
         rows = client.oneshot_search(spl, earliest=earliest, latest=latest)
         outcomes.append(
             FixtureOutcome(expect=expect, path=ref.events, events=len(events), rows=len(rows))
