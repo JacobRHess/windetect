@@ -103,4 +103,4 @@ Two jobs: `gate` (ruff, ruff format, mypy strict, offline pytest at ≥90% branc
 
 ## Status
 
-Scaffolding and engine. Telemetry bootstrap, capture slicer, replay engine, and the live CI gate are in place; detections land one at a time as captures are recorded.
+Engine proven, detections pending captures. The telemetry bootstrap, capture slicer, replay engine, deployable-app builder, and CI gates are in place: every push replays the synthetic canary ingest→extract→search path against a real Splunk, and a live Splunk run first-contact-tested (and fixed) the client end to end. Detections land one at a time as captures are recorded — each adds a rule, two real-capture fixtures, a replay assertion, a saved search in the generated app, and a technique in the Navigator layer.
