@@ -2,13 +2,15 @@
 
 Subcommands:
 
-- ``capture``  slice a VM capture export into per-detection fixtures
-- ``validate`` prove detections.yaml, every rule file, and every fixture
-               that already exists conform to the contract
-- ``replay``   replay every fixture through a live lab Splunk and assert
-               attack fixtures fire while benign fixtures stay silent
-- ``report``   coverage table across the kill chain
-- ``new``      scaffold a detection entry in detections.yaml
+- ``capture``   slice a VM capture export into per-detection fixtures
+- ``validate``  prove detections.yaml, every rule file, and every fixture
+                that already exists conform to the contract
+- ``replay``    replay every fixture through a live lab Splunk and assert
+                attack fixtures fire while benign fixtures stay silent
+- ``report``    coverage table across the kill chain; ``--layer`` emits an
+                ATT&CK Navigator layer
+- ``build-app`` generate an installable Splunk app from the detections
+- ``new``       scaffold a detection entry in detections.yaml
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ import json
 import sys
 from pathlib import Path
 
+from windetect import app as app_mod
 from windetect import capture as capture_mod
 from windetect import report as report_mod
 from windetect import schema
@@ -64,6 +67,11 @@ def _build_parser() -> argparse.ArgumentParser:
 
     cov = subparsers.add_parser("report", help="kill-chain coverage report")
     cov.add_argument("--markdown", action="store_true")
+    cov.add_argument("--layer", type=Path, metavar="PATH", help="write an ATT&CK Navigator layer")
+
+    bld = subparsers.add_parser("build-app", help="generate an installable Splunk app")
+    bld.add_argument("--out", type=Path, required=True, help="output directory for the app")
+    bld.add_argument("--index", help="deployment index the saved searches scope to")
 
     new = subparsers.add_parser("new", help="scaffold a detection entry")
     new.add_argument("id")
@@ -157,10 +165,24 @@ def _command_replay(model: Model, args: argparse.Namespace) -> int:
 
 
 def _command_report(model: Model, args: argparse.Namespace) -> int:
+    if args.layer:
+        args.layer.write_text(report_mod.coverage_layer_json(model), encoding="utf-8")
+        print(f"wrote {args.layer}")
+        return 0
     if args.markdown:
         print(report_mod.coverage_markdown(model))
     else:
         print(report_mod.coverage_text(model))
+    return 0
+
+
+def _command_build_app(model: Model, args: argparse.Namespace) -> int:
+    index = args.index or config_from_env().index
+    out = app_mod.build_app(model, args.out, index=index)
+    print(
+        f"built Splunk app with {len(model.detections)} saved search(es) at {out}; "
+        "install it under $SPLUNK_HOME/etc/apps/"
+    )
     return 0
 
 
@@ -233,6 +255,7 @@ _HANDLERS = {
     "validate": lambda model, args: _command_validate(model),
     "replay": lambda model, args: _command_replay(model, args),
     "report": lambda model, args: _command_report(model, args),
+    "build-app": lambda model, args: _command_build_app(model, args),
     "new": lambda model, args: _command_new(model, args),
 }
 

@@ -50,6 +50,8 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       - run: uv sync --extra dev --frozen
+      - name: Build the Splunk app from the detections
+        run: uv run windetect build-app --out "$PWD/build/windetect_app"
       - name: Start Splunk
         shell: bash
         run: |
@@ -58,6 +60,7 @@ jobs:
             -p 8088:8088 -p 8089:8089 \
             -e SPLUNK_START_ARGS=--accept-license \
             -e SPLUNK_PASSWORD=windetect_dev_2026 \
+            -v "$PWD/build/windetect_app:/opt/splunk/etc/apps/windetect_app" \
             splunk/splunk:9.4.2@sha256:4f798b8dfa75512c5b69b4f162c686e7b194e980559dd40fed78aadc417381be
       - name: Wait for Splunk
         shell: bash
@@ -75,3 +78,23 @@ jobs:
           exit 1
       - name: Replay-marked tests against live Splunk
         run: uv run pytest -m replay -v
+      - name: Verify the generated Splunk app installed
+        run: |
+          uv run python - <<'PY'
+          from windetect.model import load_model
+          from windetect.splunk import SplunkClient, config_from_env
+          from pathlib import Path
+
+          client = SplunkClient(config_from_env())
+          rows = client.oneshot_search(
+              '| rest /services/saved/searches | search title="windetect - *" | stats count'
+          )
+          installed = int(rows[0]["count"]) if rows else 0
+          expected = len(load_model(Path.cwd()).detections)
+          print(f"windetect saved searches installed: {installed} (expected {expected})")
+          assert installed == expected, "detections did not install as saved searches"
+          apps = client.oneshot_search(
+              '| rest /services/apps/local | search title=windetect_app | stats count'
+          )
+          assert apps and apps[0]["count"] == "1", "the generated app did not load"
+          PY
