@@ -45,10 +45,14 @@ def test_live_bootstrap_ingest_search() -> None:
     client.send_events(events, run_tag=run_tag, source="replay-smoke")
     client.wait_indexed(run_tag, len(events))
 
-    rows = client.oneshot_search(f'{client.index} wd_run="{run_tag}" EventCode=9999')
+    rows = client.oneshot_search(f'index={client.index} wd_run="{run_tag}" EventCode=9999')
     assert len(rows) == 3
-    assert all(row.get("wd_canary") == "yes" for row in rows), (
-        "KV_MODE=json props are not applied; fixture fields would be unsearchable"
+    count_rows = client.oneshot_search(
+        f'index={client.index} wd_run="{run_tag}" wd_canary="yes" | stats count as count'
+    )
+    assert count_rows, "KV_MODE=json props are not applied; fixture fields are unsearchable"
+    assert int(count_rows[0]["count"]) == 3, (
+        "KV_MODE=json props are not applied; fixture fields are unsearchable"
     )
 
 

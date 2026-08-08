@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import Element  # nosec B405
 
 from defusedxml.ElementTree import ParseError, iterparse
 

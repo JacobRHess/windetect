@@ -5,40 +5,73 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   gate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
-      - run: uv sync --extra dev
-      - run: uv run ruff check
-      - run: uv run ruff format --check
-      - run: uv run mypy
-      - run: uv run pytest --cov
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+      - run: uv sync --extra dev --frozen
+      - name: Lint
+        shell: bash
+        run: |
+          set -euo pipefail
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Type-check
+        run: uv run mypy
+      - name: Security scan (source)
+        run: uv run bandit -c pyproject.toml -q -r src
+      - name: Vulnerable dependency scan
+        run: uv run pip-audit --skip-editable
+      - name: Tests with coverage gate
+        run: uv run pytest -q --cov
 
+  # Live-Splunk gate: boots Splunk 9.4 in Docker and runs the replay-marked
+  # tests against it. The client bootstraps index, props and HEC token over
+  # REST, so no conf mounts are needed here. Boots via a step (not a service
+  # container) and polls the image's own healthcheck, the proven pattern from
+  # purpleloop: a custom curl health-cmd never passed on splunk/splunk:9.4.
   validate:
-    # Live-Splunk gate: boots Splunk 9.4 as a service container and runs the
-    # replay-marked tests against it. The client bootstraps index, props and
-    # HEC token over REST, so no conf mounts are needed here.
     runs-on: ubuntu-latest
-    services:
-      splunk:
-        image: splunk/splunk:9.4.2
-        env:
-          SPLUNK_START_ARGS: --accept-license
-          SPLUNK_PASSWORD: windetect_dev_2026
-        ports:
-          - 8089:8089
-          - 8088:8088
-        options: >-
-          --health-cmd "curl -fk https://localhost:8089/services/server/info || exit 1"
-          --health-interval 15s
-          --health-timeout 10s
-          --health-retries 40
-          --health-start-period 120s
+    needs: gate
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
-      - run: uv sync --extra dev
-      - run: uv run pytest -m replay -v
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+      - run: uv sync --extra dev --frozen
+      - name: Start Splunk
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name splunk \
+            -p 8088:8088 -p 8089:8089 \
+            -e SPLUNK_START_ARGS=--accept-license \
+            -e SPLUNK_PASSWORD=windetect_dev_2026 \
+            splunk/splunk:9.4.2@sha256:4f798b8dfa75512c5b69b4f162c686e7b194e980559dd40fed78aadc417381be
+      - name: Wait for Splunk
+        shell: bash
+        run: |
+          # Poll the image's own healthcheck rather than curling from the host: it knows
+          # the configured creds and confirms splunkd is actually serving.
+          for i in $(seq 1 84); do
+            status="$(docker inspect --format '{{.State.Health.Status}}' splunk 2>/dev/null || echo starting)"
+            echo "splunk health: $status ($((i * 5))s)"
+            if [ "$status" = "healthy" ]; then exit 0; fi
+            sleep 5
+          done
+          echo "::error::Splunk did not become healthy in time"
+          docker logs splunk 2>&1 | tail -n 150
+          exit 1
+      - name: Replay-marked tests against live Splunk
+        run: uv run pytest -m replay -v

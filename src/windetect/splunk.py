@@ -30,13 +30,13 @@ from windetect.schema import SOURCETYPES
 DEFAULT_REST_URL = "https://localhost:8089"
 DEFAULT_HEC_URL = "https://localhost:8088"
 DEFAULT_USER = "admin"
-DEFAULT_PASSWORD = "windetect_dev_2026"  # noqa: S105 throwaway localhost-only lab credential, public in the README
+DEFAULT_PASSWORD = "windetect_dev_2026"  # noqa: S105  # nosec B105
 DEFAULT_INDEX = "windetect"
 
 ENV_REST_URL = "WD_SPLUNK_URL"
 ENV_HEC_URL = "WD_SPLUNK_HEC_URL"
 ENV_USER = "WD_SPLUNK_USER"
-ENV_PASSWORD = "WD_SPLUNK_PASSWORD"  # noqa: S105 env var name, not a secret
+ENV_PASSWORD = "WD_SPLUNK_PASSWORD"  # noqa: S105  # nosec B105
 ENV_INDEX = "WD_SPLUNK_INDEX"
 
 _HEC_BATCH = 500
@@ -85,14 +85,34 @@ def hec_batch(events: list[dict[str, Any]], *, run_tag: str, index: str, source:
     return "\n".join(lines)
 
 
-def parse_search_export(payload: dict[str, Any]) -> list[dict[str, Any]]:
-    """Pull result rows out of a /search/jobs/export JSON body."""
-    results = payload.get("results")
-    if results is None:
-        return []
-    if not isinstance(results, list):
-        raise SplunkError(f"malformed search export response: {payload!r}")
-    return cast("list[dict[str, Any]]", results)
+def parse_search_export(body: str) -> list[dict[str, Any]]:
+    """Pull result rows out of an NDJSON /search/jobs/export body."""
+    rows: list[dict[str, Any]] = []
+    for line in body.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        record = json.loads(line)
+        if not isinstance(record, dict) or record.get("preview"):
+            continue
+        result = record.get("result")
+        if result is None:
+            continue
+        if not isinstance(result, dict):
+            raise SplunkError(f"malformed search export row: {record!r}")
+        rows.append(cast("dict[str, Any]", result))
+    return rows
+
+
+def _error_text(body: str) -> str:
+    try:
+        payload = json.loads(body)
+    except json.JSONDecodeError:
+        return body[:300]
+    messages = payload.get("messages") if isinstance(payload, dict) else None
+    if isinstance(messages, list) and messages:
+        return "; ".join(str(m.get("text", "")) for m in messages if isinstance(m, dict))
+    return body[:300]
 
 
 class SplunkClient:
@@ -102,6 +122,10 @@ class SplunkClient:
         self._session = requests.Session()
         self._session.auth = (config.username, config.password)
         self._session.verify = False
+        # Session auth would overwrite the per-request HEC token header with
+        # Basic credentials, so ingest gets its own auth-less session.
+        self._hec_session = requests.Session()
+        self._hec_session.verify = False
         self._hec_token: str | None = None
 
     @property
@@ -119,7 +143,7 @@ class SplunkClient:
         for start in range(0, len(events), _HEC_BATCH):
             batch = events[start : start + _HEC_BATCH]
             body = hec_batch(batch, run_tag=run_tag, index=self.config.index, source=source)
-            response = self._session.post(
+            response = self._hec_session.post(
                 f"{self.config.hec_url}/services/collector/event",
                 headers={"Authorization": f"Splunk {self._hec_token}"},
                 data=body.encode("utf-8"),
@@ -138,7 +162,9 @@ class SplunkClient:
         return len(events)
 
     def count_events(self, run_tag: str) -> int:
-        rows = self.oneshot_search(f'{self.config.index} wd_run="{run_tag}" | stats count as count')
+        rows = self.oneshot_search(
+            f'index={self.config.index} wd_run="{run_tag}" | stats count as count'
+        )
         if not rows:
             return 0
         return int(rows[0].get("count", 0))
@@ -157,6 +183,10 @@ class SplunkClient:
     def oneshot_search(
         self, spl: str, *, earliest: str | None = None, latest: str | None = None
     ) -> list[dict[str, Any]]:
+        # The export endpoint parses a bare first token as a command name, so
+        # keyword searches need the explicit search command.
+        if not spl.lstrip().startswith(("|", "search ")):
+            spl = f"search {spl}"
         data = {"search": spl, "output_mode": "json", "exec_mode": "oneshot"}
         if earliest is not None:
             data["earliest_time"] = earliest
@@ -167,19 +197,16 @@ class SplunkClient:
             data=data,
             timeout=self._timeout,
         )
+        if response.status_code != 200:
+            raise SplunkError(
+                f"Splunk search failed ({response.status_code}): {_error_text(response.text)}"
+            )
         try:
-            payload = json.loads(response.text)
+            return parse_search_export(response.text)
         except json.JSONDecodeError as exc:
             raise SplunkError(
                 f"search returned non-JSON ({response.status_code}): {response.text[:300]}"
             ) from exc
-        if response.status_code != 200:
-            messages = payload.get("messages") if isinstance(payload, dict) else None
-            text = (
-                "; ".join(m.get("text", "") for m in messages) if messages else response.text[:300]
-            )
-            raise SplunkError(f"Splunk search failed ({response.status_code}): {text}")
-        return parse_search_export(payload)
 
     def _ensure_index(self) -> None:
         if self._rest("GET", f"/services/data/indexes/{self.config.index}") is not None:
