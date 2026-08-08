@@ -30,13 +30,13 @@ from windetect.schema import SOURCETYPES
 DEFAULT_REST_URL = "https://localhost:8089"
 DEFAULT_HEC_URL = "https://localhost:8088"
 DEFAULT_USER = "admin"
-DEFAULT_PASSWORD = "windetect_dev_2026"  # noqa: S105 throwaway localhost-only lab credential, public in the README
+DEFAULT_PASSWORD = "windetect_dev_2026"  # noqa: S105  # nosec B105
 DEFAULT_INDEX = "windetect"
 
 ENV_REST_URL = "WD_SPLUNK_URL"
 ENV_HEC_URL = "WD_SPLUNK_HEC_URL"
 ENV_USER = "WD_SPLUNK_USER"
-ENV_PASSWORD = "WD_SPLUNK_PASSWORD"  # noqa: S105 env var name, not a secret
+ENV_PASSWORD = "WD_SPLUNK_PASSWORD"  # noqa: S105  # nosec B105
 ENV_INDEX = "WD_SPLUNK_INDEX"
 
 _HEC_BATCH = 500
