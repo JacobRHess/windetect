@@ -252,3 +252,25 @@ def test_new_without_detections_marker_fails(tmp_path, capsys):
 def test_missing_root_fails(capsys):
     assert run_cli("--root", "/nonexistent-windetect", "validate") == 1
     assert "no detections.yaml" in capsys.readouterr().err
+
+
+def test_build_app_via_cli(make_root, tmp_path, capsys):
+    root = make_root()
+    out = tmp_path / "app"
+    assert run_cli("--root", str(root), "build-app", "--out", str(out)) == 0
+    assert "1 saved search(es)" in capsys.readouterr().out
+    assert (out / "default" / "savedsearches.conf").is_file()
+
+
+def test_build_app_requires_out(repo_root, capsys):
+    with pytest.raises(SystemExit):
+        run_cli("--root", str(repo_root), "build-app")
+
+
+def test_report_layer_via_cli(make_root, tmp_path, capsys):
+    root = make_root()
+    layer = tmp_path / "layer.json"
+    assert run_cli("--root", str(root), "report", "--layer", str(layer)) == 0
+    assert str(layer) in capsys.readouterr().out
+    parsed = json.loads(layer.read_text(encoding="utf-8"))
+    assert parsed["techniques"][0]["techniqueID"] == "T1003.001"

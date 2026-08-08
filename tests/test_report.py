@@ -4,7 +4,7 @@ import json
 
 from helpers import DEFAULT_YAML, DETECTION_ID, build_root
 from windetect.model import load_model
-from windetect.report import coverage_markdown, coverage_text
+from windetect.report import coverage_layer, coverage_layer_json, coverage_markdown, coverage_text
 from windetect.schema import SYSMON
 
 EMPTY_YAML_TEXT = (
@@ -88,3 +88,23 @@ def test_summary_counts_multiple_stages(tmp_path):
     text = coverage_text(model)
     assert "Techniques proven: 1/3" in text
     assert "04-discovery: 0 detection(s)" in text
+
+
+def test_coverage_layer_marks_proven_techniques(tmp_path):
+    root = build_root(tmp_path)
+    layer = coverage_layer(load_model(root))
+    assert layer["domain"] == "enterprise-attack"
+    techniques = layer["techniques"]
+    assert len(techniques) == 1
+    entry = techniques[0]
+    assert entry["techniqueID"] == "T1003.001"
+    assert entry["score"] == 1
+    assert DETECTION_ID in str(entry["comment"])
+
+
+def test_coverage_layer_no_detections(tmp_path):
+    root = build_root(tmp_path, yaml_text=EMPTY_YAML_TEXT)
+    layer = coverage_layer(load_model(root))
+    assert layer["techniques"] == []
+    parsed = json.loads(coverage_layer_json(load_model(root)))
+    assert parsed["techniques"] == []

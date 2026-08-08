@@ -30,6 +30,8 @@ uv run windetect capture captures/stage-03-*.xml --stage 03   # slice attack fix
 uv run windetect capture captures/benign-*.xml --benign       # slice benign fixtures
 uv run windetect replay                        # live Splunk: attack must fire, benign must not
 uv run windetect report [--markdown]           # kill-chain coverage
+uv run windetect report --layer coverage.json  # ATT&CK Navigator layer of proven techniques
+uv run windetect build-app --out build/windetect_app  # deployable Splunk app
 uv run windetect new <id> --stage 03 --title ... --technique T1003.001 --slice sysmon=10
 ```
 
@@ -46,6 +48,15 @@ Rules are plain SPL searching the production field names, and the replay harness
 - outputs one row per detection (zero rows = no detection); windowed logic operates on `_time`, which the harness sets from each captured event's own timestamp
 
 `windetect validate` enforces all of this before any replay runs.
+
+## Deploying the detections
+
+`windetect build-app` renders the same rule files CI replays into an installable Splunk app:
+one scheduled saved search per detection, scoped to the deployment index and enriched with its
+ATT&CK technique and kill-chain stage, plus a coverage dashboard. Drop the output directory in
+`$SPLUNK_HOME/etc/apps/`. The CI validate job installs the generated app into the container on
+every push and asserts every detection landed as a saved search, so what deploys is what was
+proven.
 
 ## The kill chain
 
@@ -88,7 +99,7 @@ uv run pytest -m replay                          # needs the lab Splunk up
 
 ## CI
 
-Two jobs: `gate` (ruff, ruff format, mypy strict, offline pytest at ≥90% branch coverage) and `validate` (boots `splunk/splunk:9.4.2` as a service container and runs the replay-marked tests — a synthetic canary smoke proving ingest→extract→search end to end today, and every committed detection once captures land).
+Two jobs: `gate` (ruff, ruff format, mypy strict, offline pytest at ≥90% branch coverage, bandit, pip-audit) and `validate` (builds the deployable app, boots `splunk/splunk:9.4.2`, installs the app, and runs the replay-marked tests — a synthetic canary smoke proving ingest→extract→search end to end today, every committed detection once captures land — then asserts the detections installed as saved searches). A separate `security` workflow audits the CI workflows with zizmor and scans history for secrets with gitleaks.
 
 ## Status
 

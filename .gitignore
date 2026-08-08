@@ -6,6 +6,7 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
+build/
 
 # Raw exports from the VM are large and host-specific; the sliced fixtures
 # committed under fixtures/ are the durable artifact.
