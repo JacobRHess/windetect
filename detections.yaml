@@ -41,6 +41,18 @@ detections:
         expect: attack
       - events: fixtures/lsass-dump-command-line.benign.json
         expect: benign
+  - id: lsass-dump-script-block
+    title: LSASS memory dump tooling in PowerShell script block logging
+    rule: rules/lsass-dump-script-block.spl
+    stage: 03-credential-access
+    attack: [T1003.001]
+    slice:
+      powershell: [4104]
+    fixtures:
+      - events: fixtures/lsass-dump-script-block.attack.json
+        expect: attack
+      - events: fixtures/lsass-dump-script-block.benign.json
+        expect: benign
 # Example entry (lands with the stage 03 capture):
 #
 #   - id: lsass-access-untrusted-caller

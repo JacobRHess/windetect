@@ -1,4 +1,4 @@
-(EventCode=4688 OR EventCode=1) (CommandLine="*comsvcs*" CommandLine="*MiniDump*" OR CommandLine="*procdump*" CommandLine="*lsass*" OR CommandLine="*sekurlsa*" OR CommandLine="*mimikatz*" OR CommandLine="*nanodump*")
+(EventCode=4688 OR EventCode=1) ((CommandLine="*comsvcs*" AND CommandLine="*MiniDump*") OR (CommandLine="*procdump*" AND CommandLine="*lsass*") OR CommandLine="*sekurlsa*" OR CommandLine="*mimikatz*" OR CommandLine="*nanodump*" OR (CommandLine="*lsass*" AND CommandLine="*.dmp*"))
 | stats count as dump_events
     values(CommandLine) as command_lines
     values(EventCode) as event_codes
