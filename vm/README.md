@@ -47,6 +47,11 @@ Invoke-AtomicTest T1003.001 -TestNumbers 5   # comsvcs dump, no real malware
 Defender stays enabled. If it eats a stage's payload before telemetry lands,
 add a *lab-only* exclusion for the Atomic install directory and note it in the
 stage's capture metadata. The product here is telemetry, not successful malware.
+Observed case: in the first stage-03 capture, real-time protection let the dump
+commands start (4688/4104 recorded) but blocked and quarantined the tools
+mid-stage, so Sysmon EID10 never saw a dumper open LSASS and no dump files
+landed - any detection that needs ProcessAccess or dump artifacts requires the
+exclusion (or a real-time-protection pause) across the attack window.
 
 ## 5. Export the window
 
