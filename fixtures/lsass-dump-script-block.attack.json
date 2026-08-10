@@ -1,6 +1,6 @@
 [
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.614122+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -11,7 +11,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-AtomicTechnique.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.618332+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -22,7 +22,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-AtomicTechnique.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.626475+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -33,7 +33,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-AtomicTechnique.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.629965+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -44,7 +44,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-AtomicTechnique.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.703306+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -55,7 +55,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Invoke-AtomicTest.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.736163+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -66,7 +66,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\Write-KeyValue.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.742973+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -77,7 +77,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\Replace-InputArgs.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.743470+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -88,7 +88,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\AtomicClassSchema.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:45.780126+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -99,7 +99,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\Invoke-ExecuteCommand.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:47.782709+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -110,7 +110,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:47.927420+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -121,7 +121,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.407329+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -132,7 +132,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.414382+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -143,7 +143,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.457245+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -154,7 +154,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.488555+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -165,7 +165,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.589922+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -176,7 +176,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\Invoke-Process.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.669457+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -187,7 +187,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Invoke-AtomicTest.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.674245+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -198,7 +198,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Default-ExecutionLogger.psm1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:49.679611+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -209,7 +209,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-PreferredIPAddress.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.172772+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -220,7 +220,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279281+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -231,7 +231,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279295+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -242,7 +242,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279337+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -253,7 +253,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279351+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -264,7 +264,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279366+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -275,7 +275,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.279370+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -286,7 +286,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.335781+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -297,7 +297,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.335798+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -308,7 +308,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.335814+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -319,7 +319,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.335823+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -330,7 +330,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.368911+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -341,7 +341,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.368931+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -352,7 +352,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.404023+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -363,7 +363,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.404041+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -374,7 +374,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.404056+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -385,7 +385,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.432820+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -396,7 +396,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.432841+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -407,7 +407,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.432853+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -418,7 +418,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.462296+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -429,7 +429,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.462311+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -440,7 +440,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.462314+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -451,7 +451,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.486142+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -462,7 +462,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.523625+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -473,7 +473,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.523639+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -484,7 +484,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.523689+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -495,7 +495,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.523702+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -506,7 +506,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.523714+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -517,7 +517,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.546141+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -528,7 +528,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.596275+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -539,7 +539,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.596295+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -550,7 +550,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.596306+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -561,7 +561,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.621646+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -572,7 +572,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.621658+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -583,7 +583,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.642765+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -594,7 +594,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.665096+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -605,7 +605,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:50.786391+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -616,7 +616,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:51.062954+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -627,7 +627,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Get-PreferredIPAddress.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:51.134844+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -638,7 +638,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Invoke-AtomicTest.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:51.135875+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -649,7 +649,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Public\\Default-ExecutionLogger.psm1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:51.525639+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -660,7 +660,7 @@
     "Path": "C:\\AtomicRedTeam\\invoke-atomicredteam\\Private\\Replace-InputArgs.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.403752+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -671,7 +671,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.468529+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -682,7 +682,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.779366+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -693,7 +693,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.796982+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -704,7 +704,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.817569+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -715,7 +715,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.867438+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -726,7 +726,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:11:52.911011+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -737,7 +737,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:08.331920+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -748,7 +748,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:09.655233+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -759,7 +759,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.117262+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -770,7 +770,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.430679+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -781,7 +781,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.638603+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -792,7 +792,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.666512+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -803,7 +803,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.693437+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -814,7 +814,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.693448+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -825,7 +825,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.751315+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -836,7 +836,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.770212+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -847,7 +847,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.775184+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -858,7 +858,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.833861+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -869,7 +869,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:11.862512+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -880,7 +880,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:13.756674+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -891,7 +891,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:13.803470+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -902,7 +902,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:14.073448+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -913,7 +913,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:14.077088+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -924,7 +924,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659674+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -935,7 +935,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659681+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -946,7 +946,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659688+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -957,7 +957,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659690+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -968,7 +968,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659693+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -979,7 +979,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659695+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -990,7 +990,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659700+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1001,7 +1001,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659703+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1012,7 +1012,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659705+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1023,7 +1023,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659707+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1034,7 +1034,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659713+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1045,7 +1045,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:13:15.659716+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1056,7 +1056,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.130921+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1067,7 +1067,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.451768+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1078,7 +1078,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.664114+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1089,7 +1089,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.674405+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1100,7 +1100,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.702141+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1111,7 +1111,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.702160+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1122,7 +1122,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.760667+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1133,7 +1133,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.781689+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1144,7 +1144,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.786785+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1155,7 +1155,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.856249+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1166,7 +1166,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:03.885690+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1177,7 +1177,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:04.029166+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1188,7 +1188,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:04.071722+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1199,7 +1199,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:04.343527+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1210,7 +1210,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:14:04.347399+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1221,7 +1221,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:06.158584+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1232,7 +1232,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:07.678983+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1243,7 +1243,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:07.985192+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1254,7 +1254,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.216625+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1265,7 +1265,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.232746+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1276,7 +1276,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.261942+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1287,7 +1287,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.306576+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1298,7 +1298,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.356974+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1309,7 +1309,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.400105+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1320,7 +1320,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.510068+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1331,7 +1331,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.568421+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1342,7 +1342,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.574708+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1353,7 +1353,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:08.577377+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1364,7 +1364,7 @@
     "Path": ""
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.544056+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1375,7 +1375,7 @@
     "Path": "C:\\windetect\\wd_runner.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.668233+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1386,7 +1386,7 @@
     "Path": "C:\\Program Files\\WindowsPowerShell\\Modules\\powershell-yaml\\0.4.2\\powershell-yaml.psd1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.725537+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1397,7 +1397,7 @@
     "Path": "C:\\Program Files\\WindowsPowerShell\\Modules\\powershell-yaml\\0.4.2\\Load-Assemblies.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.892303+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1408,7 +1408,7 @@
     "Path": "C:\\Program Files\\WindowsPowerShell\\Modules\\powershell-yaml\\0.4.2\\Load-Assemblies.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.934454+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,
@@ -1419,7 +1419,7 @@
     "Path": "C:\\Program Files\\WindowsPowerShell\\Modules\\powershell-yaml\\0.4.2\\Load-Assemblies.ps1"
   },
   {
-    "sourcetype": "WinEventLog:Microsoft-Windows-PowerShell/Operational",
+    "sourcetype": "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational",
     "_time": "2026-08-08T19:17:10.996197+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4104,

@@ -69,5 +69,28 @@ uv run windetect capture captures/stage-03-*.windetect.xml --stage 03-credential
 ## Benign captures
 
 Same export path over a scripted normal-usage window (browsing, app installs,
-Windows Update). Those slices fill the `<id>.benign.json` halves and are the
-false-positive proof the article leans on.
+Windows Update). Those slices fill the `<id>.benign.json` halves.
+
+A benign capture is only as strong as the near-misses it contains. Background
+noise (svchost, RuntimeBroker, remoting) proves a rule ignores unrelated events;
+it does **not** prove a low false-positive rate against the activity that
+actually looks like the attack. For the LSASS detections that means a benign
+window should include the legitimate dump-adjacent activity a real host
+produces - Task Manager's *Create dump file*, a WER/crash dump landing in
+`%LOCALAPPDATA%\CrashDumps`, an admin or EDR running procdump against a service
+they own. Script those into the normal-usage window so the benign slice exercises
+the rule's decision boundary, not just quiet background. Until it does, treat the
+low-FP claim as "ignores background noise", not "survives realistic near-misses".
+
+## Ingest field names (renderXml)
+
+Fixtures carry the raw EVTX element names (`CommandLine`, `NewProcessName`,
+`ScriptBlockText`) because `Export-Stage.ps1` serializes each event with
+`.ToXml()`. For the deployed rules to match those same names, a production
+forwarder must ingest all three channels with `renderXml = true` in `inputs.conf`
+(sourcetypes `XmlWinEventLog:Security`, `XmlWinEventLog:Microsoft-Windows-PowerShell/Operational`,
+and the Sysmon XML sourcetype). Under the classic non-XML Security extraction the
+Splunk Add-on for Windows renames these fields (`CommandLine` becomes
+`Process_Command_Line`), and the rules would silently never match on 4688. This
+is the single ingest assumption the "runs unmodified in production" claim rests
+on, and it is stated so a reader can check it.

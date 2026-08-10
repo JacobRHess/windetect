@@ -1,4 +1,4 @@
-EventCode=4104 ((ScriptBlockText="*comsvcs*" AND ScriptBlockText="*MiniDump*") OR (ScriptBlockText="*procdump*" AND ScriptBlockText="*lsass*") OR ScriptBlockText="*sekurlsa*" OR ScriptBlockText="*mimikatz*" OR ScriptBlockText="*nanodump*" OR (ScriptBlockText="*lsass*" AND ScriptBlockText="*.dmp*"))
+EventCode=4104 ((ScriptBlockText="*comsvcs*" AND ScriptBlockText="*MiniDump*") OR (ScriptBlockText="*procdump*" AND ScriptBlockText="*lsass*") OR ScriptBlockText="*Out-Minidump*" OR ScriptBlockText="*MiniDumpWriteDump*" OR ScriptBlockText="*Invoke-Mimikatz*" OR ScriptBlockText="*sekurlsa*" OR ScriptBlockText="*mimikatz*" OR ScriptBlockText="*nanodump*" OR (ScriptBlockText="*lsass*" AND ScriptBlockText="*.dmp*"))
 | stats count as dump_script_blocks
     values(ScriptBlockText) as script_blocks
     values(Computer) as hosts

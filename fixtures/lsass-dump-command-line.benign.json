@@ -1015,7 +1015,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:25.493094+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1065,7 +1065,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:25.509442+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1115,7 +1115,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:27.818026+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1165,7 +1165,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:27.853350+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1215,7 +1215,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:36.564965+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1265,7 +1265,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:36.569327+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1315,7 +1315,7 @@
     "ParentUser": "NT AUTHORITY\\LOCAL SERVICE"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:41.280714+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1365,7 +1365,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:57.820661+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1415,7 +1415,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:57.829201+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1465,7 +1465,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:38:57.929854+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1515,7 +1515,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:39:01.606965+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1565,7 +1565,7 @@
     "ParentUser": "NT AUTHORITY\\SYSTEM"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:39:01.611879+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1615,7 +1615,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:39:02.905480+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1665,7 +1665,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:42:39.743978+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1686,7 +1686,7 @@
     "MandatoryLabel": "S-1-16-4096"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:42:39.904774+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1707,7 +1707,7 @@
     "MandatoryLabel": "S-1-16-4096"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:42:39.961180+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1757,7 +1757,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:42:40.028293+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1807,7 +1807,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:43:12.149295+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1828,7 +1828,7 @@
     "MandatoryLabel": "S-1-16-4096"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:43:12.150182+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1849,7 +1849,7 @@
     "MandatoryLabel": "S-1-16-4096"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:25.296225+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1899,7 +1899,7 @@
     "ParentUser": "NT AUTHORITY\\SYSTEM"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:25.301614+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1949,7 +1949,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:27.440406+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -1999,7 +1999,7 @@
     "ParentUser": "NT AUTHORITY\\SYSTEM"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:27.444244+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2049,7 +2049,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:28.426433+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2099,7 +2099,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:30.010783+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2149,7 +2149,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:30.045131+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2199,7 +2199,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:30.395359+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2249,7 +2249,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:30.461858+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2299,7 +2299,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:32.495332+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2349,7 +2349,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:32.542913+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2399,7 +2399,7 @@
     "ParentUser": "-"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:34.534240+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2449,7 +2449,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:34.571212+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2499,7 +2499,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:34.605042+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2549,7 +2549,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:44:34.638333+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2599,7 +2599,7 @@
     "ParentUser": "WINDEV2407EVAL\\Administrator"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:45:17.106482+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,
@@ -2649,7 +2649,7 @@
     "ParentUser": "NT AUTHORITY\\SYSTEM"
   },
   {
-    "sourcetype": "WinEventLog:Security",
+    "sourcetype": "XmlWinEventLog:Security",
     "_time": "2026-08-08T18:45:17.110320+00:00",
     "Computer": "WinDev2407Eval",
     "EventCode": 4688,

@@ -66,14 +66,14 @@ proven.
 |---|---|---|
 | 01 Initial access + execution | T1566.001, T1204.002, T1059.001 | Office/script host spawning shell, encoded PowerShell download cradle |
 | 02 Defense evasion | T1070.001, T1036.003 | Security event log cleared (1102), masqueraded binary |
-| 03 Credential access | T1003.001 | LSASS process access (Sysmon EID 10), comsvcs dump |
+| 03 Credential access | T1003.001 | LSASS dump tooling in command line (Sysmon EID 1 / Security 4688) and PowerShell 4104; access-based EID 10 backstop pending capture |
 | 04 Discovery | T1087.002, T1069.002 | Domain user/group enumeration |
 | 05 Persistence | T1547.001, T1053.005, T1543.003 | Run key, scheduled task, service creation (4697/4698) |
 | 06 Privilege escalation | T1548.002 | UAC bypass process lineage, 4672 anomaly |
 | 07 Lateral movement | T1021.002 | Remote service creation over SMB |
 | 08 C2 + exfiltration | T1071.001, T1560.001 | Beacon cadence, staged archive |
 
-Attack stages are executed with Atomic Red Team inside an isolated Hyper-V VM; the telemetry is exported as raw EVTX XML, sliced into JSON fixtures with real field names, and replayed through Splunk with `sourcetype` values that match a production deployment (`XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`, `WinEventLog:Security`, PowerShell operational). The rules written here are the rules you deploy there: no field renaming, no bespoke schema.
+Attack stages are executed with Atomic Red Team inside an isolated Hyper-V VM; the telemetry is exported as raw EVTX XML, sliced into JSON fixtures with real field names, and replayed through Splunk with `sourcetype` values that match a production deployment. All three channels use the XML sourcetypes (`XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`, `XmlWinEventLog:Security`, `XmlWinEventLog:Microsoft-Windows-PowerShell/Operational`), so Splunk preserves the raw EVTX element names the rules search — the one ingest assumption behind "no field renaming" is `renderXml = true` on those inputs. Under the classic Security extraction the Add-on for Windows renames the fields (`CommandLine` → `Process_Command_Line`) and a 4688 rule silently never matches; `vm/README.md` spells this out. The rules written here are the rules you deploy there: no field renaming, no bespoke schema.
 
 ## Capture runbook
 
@@ -103,6 +103,12 @@ uv run pytest -m replay                          # needs the lab Splunk up
 
 Two jobs: `gate` (ruff, ruff format, mypy strict, offline pytest at ≥90% branch coverage, bandit, pip-audit) and `validate` (builds the deployable app, boots `splunk/splunk:9.4.2`, installs the app, and runs the replay-marked tests — a synthetic canary smoke proving ingest→extract→search end to end today, every committed detection once captures land — then asserts the detections installed as saved searches). A separate `security` workflow audits the CI workflows with zizmor and scans history for secrets with gitleaks.
 
+## What the current detections cover, and what they don't
+
+Stage 03 (credential access, T1003.001) ships two detections, both sliced from a real Atomic Red Team capture: LSASS dump tooling in process command lines (Sysmon EID 1 + Security 4688) and in PowerShell 4104 script blocks. Read them for what they are — **string-tier detections**: they match the command line and script text of common dump tooling (procdump, comsvcs `MiniDump`, `Out-Minidump`, mimikatz/`sekurlsa`, nanodump). That tier is cheap and high-signal, and it is also the most bypassable tier of the pyramid: rename the tool, invoke `comsvcs` by ordinal, or write the dump to a path without `lsass` or `.dmp` in it, and a string rule misses. The access-based backstop that survives renaming — Sysmon EID 10 (`GrantedAccess` on `lsass.exe` from an untrusted caller) — is scaffolded in `detections.yaml` but not yet implemented, because the first stage-03 capture had Defender quarantine the tools before any dumper opened LSASS (see `vm/README.md`). It lands when a capture with the lab exclusion records the ProcessAccess events.
+
+The benign fixtures are genuine background captures, so they prove the rules ignore unrelated noise. They do **not** yet contain the legitimate dump-adjacent near-misses (WER crash dumps, Task Manager *Create dump file*, an admin's own procdump) that set a real false-positive floor; `vm/README.md` describes the benign window that would. Read the low-FP result as "ignores background", not "survives realistic near-misses", until then.
+
 ## Status
 
-Engine proven, detections pending captures. The telemetry bootstrap, capture slicer, replay engine, deployable-app builder, and CI gates are in place: every push replays the synthetic canary ingest→extract→search path against a real Splunk, and a live Splunk run first-contact-tested (and fixed) the client end to end. Detections land one at a time as captures are recorded — each adds a rule, two real-capture fixtures, a replay assertion, a saved search in the generated app, and a technique in the Navigator layer.
+The telemetry bootstrap, capture slicer, replay engine, deployable-app builder, and CI gates are in place, and stage 03 has its first two real-capture detections. Every push replays them (and the synthetic ingest→extract→search canary) against a real Splunk. Remaining stages land one detection at a time as captures are recorded — each adds a rule, two real-capture fixtures, a replay assertion, a saved search in the generated app, and a technique in the Navigator layer.
