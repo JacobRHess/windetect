@@ -137,6 +137,23 @@ def test_multiple_exports_merge(tmp_path, sample_capture):
     assert outcomes[0].events == 14
 
 
+def test_multiple_exports_mixed_stages_rejected(tmp_path, sample_capture):
+    yaml_text = NO_SLICE_YAML.replace(
+        "stages:",
+        "stages:\n  - id: 04-discovery\n    techniques: [T1087.002]",
+        1,
+    )
+    root = build_root(tmp_path, yaml_text=yaml_text)
+    model = load_model(root)
+    other_stage = tmp_path / "stage04.xml"
+    other_stage.write_text(
+        sample_capture.read_text(encoding="utf-8").replace('stage="03"', 'stage="04"', 1),
+        encoding="utf-8",
+    )
+    with pytest.raises(SliceError, match="different stages"):
+        run_capture(root, model, [sample_capture, other_stage], expect="attack")
+
+
 def test_write_fixture_creates_parents(tmp_path):
     path = write_fixture(
         tmp_path, Path("fixtures/deep/nested/x.json"), [{"sourcetype": schema.SECURITY}]

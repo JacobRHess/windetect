@@ -16,6 +16,7 @@ of search semantics, so this module only touches real behavior.
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
@@ -27,6 +28,10 @@ from windetect.model import EXPECT_ATTACK, EXPECT_BENIGN, Detection, Model, Mode
 from windetect.splunk import SplunkClient
 
 _TIME_PAD = timedelta(seconds=60)
+
+# The run id is interpolated into the replay search inside wd_run="..."; keep
+# it to characters that cannot alter the SPL.
+_RUN_ID = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
 
 
 class ReplayError(RuntimeError):
@@ -105,6 +110,8 @@ def run_replay(
     client.bootstrap()
     if run_id is None:
         run_id = uuid.uuid4().hex[:12]
+    elif not _RUN_ID.match(run_id):
+        raise ReplayError(f"run id {run_id!r} must match [A-Za-z0-9._-]{{1,64}}")
     return [
         replay_detection(client, model, detection, rules[detection.id], run_id)
         for detection in model.detections

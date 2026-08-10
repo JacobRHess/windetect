@@ -37,7 +37,7 @@ uv run windetect new <id> --stage 03 --title ... --technique T1003.001 --slice s
 
 `capture` applies each detection's `slice` spec (channel → event codes) to the export and writes the matching events verbatim into the fixture — event-code level only, so rules still earn their matches on real field values. Slicing is loud: an empty slice aborts, and every written fixture is schema-validated before it lands.
 
-Splunk connection defaults to the local lab (`https://localhost:8089`/`:8088`, `admin`/`windetect_dev_2026`, index `windetect`); override with `WD_SPLUNK_URL`, `WD_SPLUNK_HEC_URL`, `WD_SPLUNK_USER`, `WD_SPLUNK_PASSWORD`, `WD_SPLUNK_INDEX` or the matching `--flags`. Set `WD_SPLUNK_VERIFY=true` to verify TLS against a trusted endpoint (off by default for the lab's self-signed cert). The client bootstraps the index, `KV_MODE=json` props, and the HEC input over REST, so it works identically against the docker lab and the CI service container.
+Splunk connection defaults to the local lab (`https://localhost:8089`/`:8088`, `admin`/`windetect_dev_2026`, index `windetect`); override with `WD_SPLUNK_URL`, `WD_SPLUNK_HEC_URL`, `WD_SPLUNK_USER`, `WD_SPLUNK_PASSWORD`, `WD_SPLUNK_INDEX` or the matching `--flags`. TLS verification is on by default and skipped automatically only when every endpoint is localhost (the lab's self-signed cert); force either way with `WD_SPLUNK_VERIFY=true|false`. The client bootstraps the index, `KV_MODE=json` props, and the HEC input over REST, so it works identically against the docker lab and the CI service container.
 
 ## The rule contract
 

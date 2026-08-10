@@ -93,17 +93,45 @@ def test_config_from_env(monkeypatch):
         password="hunter2",
         index="other",
     )
-    assert not config.verify
+    # No explicit WD_SPLUNK_VERIFY: a remote endpoint must be verified.
+    assert config.verify is None
+    assert config.tls_verify is True
 
 
 @pytest.mark.parametrize("value", ["1", "true", "YES", " on "])
 def test_config_verify_from_env(monkeypatch, value):
     monkeypatch.setenv("WD_SPLUNK_VERIFY", value)
-    assert config_from_env().verify
+    assert config_from_env().tls_verify is True
+
+
+@pytest.mark.parametrize("value", ["0", "false", "NO", " off "])
+def test_config_verify_off_from_env(monkeypatch, value):
+    monkeypatch.setenv("WD_SPLUNK_VERIFY", value)
+    assert config_from_env().tls_verify is False
+
+
+def test_config_verify_garbage_rejected(monkeypatch):
+    monkeypatch.setenv("WD_SPLUNK_VERIFY", "maybe")
+    with pytest.raises(SplunkError, match="WD_SPLUNK_VERIFY"):
+        config_from_env()
+
+
+def test_verify_defaults_off_only_for_localhost():
+    assert SplunkConfig().tls_verify is False
+    assert SplunkConfig(rest_url="https://splunk.example:8089").tls_verify is True
+    assert SplunkConfig(hec_url="https://splunk.example:8088").tls_verify is True
 
 
 def test_sessions_respect_verify():
     client = SplunkClient(SplunkConfig(verify=True))
+    assert client._session.verify is True
+    assert client._hec_session.verify is True
+
+
+def test_sessions_verify_remote_by_default():
+    client = SplunkClient(
+        SplunkConfig(rest_url="https://splunk.example:8089", hec_url="https://splunk.example:8088")
+    )
     assert client._session.verify is True
     assert client._hec_session.verify is True
 

@@ -8,8 +8,9 @@ client simply adopts them; against the CI service container, which mounts
 no conf, the client creates them at runtime. Same code path, same result.
 
 Credentials are the throwaway dev ones from lab/docker-compose.yml; the lab
-node is disposable and never leaves localhost. TLS verification is off
-because the container serves a self-signed certificate.
+node is disposable and never leaves localhost. TLS verification defaults to
+on, and is skipped automatically only when every endpoint is localhost (the
+lab container serves a self-signed certificate).
 """
 
 from __future__ import annotations
@@ -20,7 +21,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, cast
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import requests
 import urllib3
@@ -41,14 +42,19 @@ ENV_INDEX = "WD_SPLUNK_INDEX"
 ENV_VERIFY = "WD_SPLUNK_VERIFY"
 
 _TRUTHY = frozenset({"1", "true", "yes", "on"})
+_FALSY = frozenset({"0", "false", "no", "off"})
+
+_LOCAL_HOSTS = frozenset({"localhost", "127.0.0.1", "::1"})
 
 _HEC_BATCH = 500
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class SplunkError(RuntimeError):
     """The lab Splunk refused a request or never became searchable."""
+
+
+def _is_local(url: str) -> bool:
+    return urlparse(url).hostname in _LOCAL_HOSTS
 
 
 @dataclass(frozen=True)
@@ -58,8 +64,26 @@ class SplunkConfig:
     username: str = DEFAULT_USER
     password: str = DEFAULT_PASSWORD
     index: str = DEFAULT_INDEX
-    # Off for the lab's self-signed localhost cert; on for a trusted endpoint.
-    verify: bool = False
+    # None = automatic: verify unless every endpoint is localhost (the lab's
+    # self-signed cert). Never silently skip verification for a remote Splunk.
+    verify: bool | None = None
+
+    @property
+    def tls_verify(self) -> bool:
+        if self.verify is not None:
+            return self.verify
+        return not (_is_local(self.rest_url) and _is_local(self.hec_url))
+
+
+def _verify_from_env() -> bool | None:
+    raw = os.environ.get(ENV_VERIFY, "").strip().lower()
+    if not raw:
+        return None
+    if raw in _TRUTHY:
+        return True
+    if raw in _FALSY:
+        return False
+    raise SplunkError(f"{ENV_VERIFY} must be a boolean (true/false), got {raw!r}")
 
 
 def config_from_env() -> SplunkConfig:
@@ -70,7 +94,7 @@ def config_from_env() -> SplunkConfig:
         username=os.environ.get(ENV_USER, defaults.username),
         password=os.environ.get(ENV_PASSWORD, defaults.password),
         index=os.environ.get(ENV_INDEX, defaults.index),
-        verify=os.environ.get(ENV_VERIFY, "").strip().lower() in _TRUTHY,
+        verify=_verify_from_env(),
     )
 
 
@@ -125,14 +149,27 @@ class SplunkClient:
     def __init__(self, config: SplunkConfig, *, timeout: float = 30.0) -> None:
         self.config = config
         self._timeout = timeout
+        verify = config.tls_verify
+        if not verify:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         self._session = requests.Session()
         self._session.auth = (config.username, config.password)
-        self._session.verify = config.verify
+        self._session.verify = verify
         # Session auth would overwrite the per-request HEC token header with
         # Basic credentials, so ingest gets its own auth-less session.
         self._hec_session = requests.Session()
-        self._hec_session.verify = config.verify
+        self._hec_session.verify = verify
         self._hec_token: str | None = None
+
+    def close(self) -> None:
+        self._session.close()
+        self._hec_session.close()
+
+    def __enter__(self) -> SplunkClient:
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        self.close()
 
     @property
     def index(self) -> str:
@@ -193,7 +230,7 @@ class SplunkClient:
         # keyword searches need the explicit search command.
         if not spl.lstrip().startswith(("|", "search ")):
             spl = f"search {spl}"
-        data = {"search": spl, "output_mode": "json", "exec_mode": "oneshot"}
+        data = {"search": spl, "output_mode": "json"}
         if earliest is not None:
             data["earliest_time"] = earliest
         if latest is not None:
@@ -238,13 +275,14 @@ class SplunkClient:
                 self._rest("POST", base, data=fields)
 
     def _ensure_hec_token(self) -> str:
-        entry = f"/servicesNS/admin/splunk_httpinput/data/inputs/http/{self.config.index}"
+        owner = quote(self.config.username, safe="")
+        entry = f"/servicesNS/{owner}/splunk_httpinput/data/inputs/http/{self.config.index}"
         payload = self._rest("GET", entry)
         if payload is not None:
             return _extract_token(payload, entry)
         created = self._rest(
             "POST",
-            "/servicesNS/admin/splunk_httpinput/data/inputs/http",
+            f"/servicesNS/{owner}/splunk_httpinput/data/inputs/http",
             data={"name": self.config.index, "index": self.config.index, "disabled": "0"},
         )
         if created is None:
@@ -268,11 +306,9 @@ class SplunkClient:
                 f"{method} {path} returned non-JSON ({response.status_code})"
             ) from exc
         if response.status_code >= 400:
-            messages = payload.get("messages") if isinstance(payload, dict) else None
-            text = (
-                "; ".join(m.get("text", "") for m in messages) if messages else response.text[:300]
+            raise SplunkError(
+                f"{method} {path} failed ({response.status_code}): {_error_text(response.text)}"
             )
-            raise SplunkError(f"{method} {path} failed ({response.status_code}): {text}")
         return cast("dict[str, Any]", payload)
 
 

@@ -33,6 +33,19 @@ def test_build_app_index_override(tmp_path):
     build_app(model, tmp_path / "out", index="prod_windows")
     conf = (tmp_path / "out" / "default" / "savedsearches.conf").read_text(encoding="utf-8")
     assert "index=prod_windows" in conf
+    dashboard = (
+        tmp_path / "out" / "default" / "data" / "ui" / "views" / "windetect_coverage.xml"
+    ).read_text(encoding="utf-8")
+    assert "index=prod_windows" in dashboard
+    assert "index=windetect" not in dashboard
+
+
+def test_saved_search_window_matches_cron_period(tmp_path):
+    root = build_root(tmp_path)
+    model = load_model(root)
+    conf = render_savedsearches(model, check_rules(model))
+    assert "dispatch.earliest_time = -10m@m" in conf
+    assert "dispatch.latest_time = @m" in conf
 
 
 def test_saved_search_title_whitespace_collapsed(tmp_path):

@@ -168,11 +168,11 @@ def _parse_detections(path: Path, raw: Any, stages: tuple[Stage, ...]) -> tuple[
         raw = []
     if not isinstance(raw, list):
         raise ModelError(f"{path}: detections must be a list")
-    stage_ids = {s.id for s in stages}
+    stage_techniques = {s.id: frozenset(s.techniques) for s in stages}
     seen: set[str] = set()
     detections: list[Detection] = []
     for entry in raw:
-        detection = _parse_detection(path, entry, stage_ids)
+        detection = _parse_detection(path, entry, stage_techniques)
         if detection.id in seen:
             raise ModelError(f"{path}: duplicate detection id {detection.id!r}")
         seen.add(detection.id)
@@ -180,7 +180,9 @@ def _parse_detections(path: Path, raw: Any, stages: tuple[Stage, ...]) -> tuple[
     return tuple(detections)
 
 
-def _parse_detection(path: Path, entry: Any, stage_ids: set[str]) -> Detection:
+def _parse_detection(
+    path: Path, entry: Any, stage_techniques: dict[str, frozenset[str]]
+) -> Detection:
     if not isinstance(entry, dict):
         raise ModelError(f"{path}: each detection must be a mapping, got {entry!r}")
 
@@ -197,7 +199,7 @@ def _parse_detection(path: Path, entry: Any, stage_ids: set[str]) -> Detection:
         raise ModelError(f"{path}: detection {detection_id} rule must be rules/{detection_id}.spl")
 
     stage = entry.get("stage")
-    if not isinstance(stage, str) or stage not in stage_ids:
+    if not isinstance(stage, str) or stage not in stage_techniques:
         raise ModelError(f"{path}: detection {detection_id} references unknown stage {stage!r}")
 
     attack = entry.get("attack")
@@ -208,6 +210,14 @@ def _parse_detection(path: Path, entry: Any, stage_ids: set[str]) -> Detection:
             raise ModelError(
                 f"{path}: detection {detection_id} has invalid technique {technique!r}"
             )
+    # Keep the coverage report and the Navigator layer in agreement: every
+    # technique a detection claims must be one its stage declares.
+    unclaimed = [t for t in attack if t not in stage_techniques[stage]]
+    if unclaimed:
+        raise ModelError(
+            f"{path}: detection {detection_id} claims technique(s) "
+            f"{', '.join(unclaimed)} not listed for stage {stage}"
+        )
 
     slice_spec = _parse_slice(path, detection_id, entry.get("slice"))
     fixtures = _parse_fixtures(path, detection_id, entry.get("fixtures"))

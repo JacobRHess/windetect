@@ -88,6 +88,14 @@ def test_run_replay_all_pass(loaded_model):
     assert f"run1-{DETECTION_ID}-benign" in tags
 
 
+@pytest.mark.parametrize("bad", ['x" OR wd_run="*', "spaced run", "a" * 65, ""])
+def test_run_replay_rejects_unsafe_run_id(loaded_model, bad):
+    client = FakeClient()
+    with pytest.raises(ReplayError, match="run id"):
+        run_replay(loaded_model, client, run_id=bad)
+    assert not client.sent
+
+
 def test_run_replay_generates_run_id(loaded_model):
     client = FakeClient()
     run_replay(loaded_model, client)

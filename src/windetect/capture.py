@@ -79,12 +79,24 @@ def run_capture(
     events.sort(key=lambda e: e["_time"])
 
     if expect == EXPECT_ATTACK:
-        attrs = parsed[0][0]
-        detected_stage = _resolve_capture_stage(model, attrs)
+        resolved = [
+            (path, attrs, _resolve_capture_stage(model, attrs))
+            for path, (attrs, _) in zip(xml_paths, parsed, strict=True)
+        ]
+        detected_stage = resolved[0][2]
+        mismatched = [
+            f"{path}: {stage.id}" for path, _, stage in resolved if stage.id != detected_stage.id
+        ]
+        if mismatched:
+            raise SliceError(
+                f"exports declare different stages ({resolved[0][0]}: {detected_stage.id}; "
+                + "; ".join(mismatched)
+                + "); slice one stage at a time"
+            )
         chosen = model.stage(stage_ref) if stage_ref is not None else detected_stage
         if chosen.id != detected_stage.id:
             raise SliceError(
-                f"capture declares stage {attrs.stage!r} ({detected_stage.id}) "
+                f"capture declares stage {resolved[0][1].stage!r} ({detected_stage.id}) "
                 f"but --stage selected {chosen.id}"
             )
         targets = model.stage_detections(chosen.id)

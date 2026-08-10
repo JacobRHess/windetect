@@ -106,6 +106,10 @@ def _block_replacement(text: str, header: str, replacement: str) -> str:
         ),
         (lambda t: t.replace("attack: [T1003.001]", "attack: []"), "attack techniques"),
         (lambda t: t.replace("attack: [T1003.001]", "attack: [nope]"), "invalid technique"),
+        (
+            lambda t: t.replace("attack: [T1003.001]", "attack: [T1003.001, T1548.002]"),
+            "not listed for stage",
+        ),
         (lambda t: t.replace("      sysmon: [10, 1]", "      sysmon: [true]"), "invalid code"),
         (lambda t: t.replace("      sysmon: [10, 1]", "      sysmon: []"), "must list event codes"),
         (
