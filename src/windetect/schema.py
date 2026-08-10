@@ -22,9 +22,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
+# All three channels are ingested with renderXml=true, so Splunk preserves the
+# original EVTX element names (CommandLine, NewProcessName, ScriptBlockText)
+# that the rules are written against. Under the classic (non-XML) Security
+# extraction those same fields arrive renamed (Process_Command_Line,
+# New_Process_Name), so the XML sourcetype is load-bearing, not cosmetic.
 SYSMON = "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
-SECURITY = "WinEventLog:Security"
-POWERSHELL = "WinEventLog:Microsoft-Windows-PowerShell/Operational"
+SECURITY = "XmlWinEventLog:Security"
+POWERSHELL = "XmlWinEventLog:Microsoft-Windows-PowerShell/Operational"
 
 SOURCETYPES = (SYSMON, SECURITY, POWERSHELL)
 

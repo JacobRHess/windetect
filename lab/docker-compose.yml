@@ -19,8 +19,6 @@ services:
     volumes:
       # Writable, not :ro - the image's first-boot provisioning chowns this dir.
       - ./splunk:/opt/splunk/etc/apps/windetect/local
-    healthcheck:
-      test: ["CMD", "curl", "-fk", "https://localhost:8089/services/server/info"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
+    # No custom healthcheck: the custom curl against /services/server/info gets a
+    # 401 (it needs auth) and never passes. We inherit the image's own
+    # /sbin/checkstate.sh healthcheck - the same one the CI validate job polls.

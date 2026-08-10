@@ -1,0 +1,8 @@
+EventCode=4104 ((ScriptBlockText="*comsvcs*" AND ScriptBlockText="*MiniDump*") OR (ScriptBlockText="*procdump*" AND ScriptBlockText="*lsass*") OR ScriptBlockText="*Out-Minidump*" OR ScriptBlockText="*MiniDumpWriteDump*" OR ScriptBlockText="*Invoke-Mimikatz*" OR ScriptBlockText="*sekurlsa*" OR ScriptBlockText="*mimikatz*" OR ScriptBlockText="*nanodump*" OR (ScriptBlockText="*lsass*" AND ScriptBlockText="*.dmp*"))
+| stats count as dump_script_blocks
+    values(ScriptBlockText) as script_blocks
+    values(Computer) as hosts
+    min(_time) as first_seen
+    max(_time) as last_seen
+| where dump_script_blocks > 0
+| eval detection="lsass-dump-script-block", technique="T1003.001"
