@@ -21,12 +21,16 @@ import json
 import sys
 from pathlib import Path
 
+import yaml
+
 from windetect import app as app_mod
 from windetect import capture as capture_mod
 from windetect import report as report_mod
 from windetect import schema
 from windetect.evtx import CaptureError
 from windetect.model import (
+    _DETECTION_ID,
+    _TECHNIQUE_ID,
     EXPECT_ATTACK,
     EXPECT_BENIGN,
     SOURCES,
@@ -153,8 +157,8 @@ def _command_replay(model: Model, args: argparse.Namespace) -> int:
         print("no detections to replay yet; fixtures land as captures are recorded")
         return 0
     check_model_for_replay(model)
-    client = SplunkClient(config)
-    outcomes = run_replay(model, client, run_id=args.run_id)
+    with SplunkClient(config) as client:
+        outcomes = run_replay(model, client, run_id=args.run_id)
     for outcome in outcomes:
         print(format_outcome(outcome))
     failed = [outcome for outcome in outcomes if not outcome.passed]
@@ -188,6 +192,27 @@ def _command_build_app(model: Model, args: argparse.Namespace) -> int:
 
 def _command_new(model: Model, args: argparse.Namespace) -> int:
     stage = model.stage(args.stage)
+    # Everything written here must load back through load_model, so reject
+    # anything the loader would reject before touching detections.yaml.
+    if not _DETECTION_ID.match(args.id):
+        raise CommandError(f"detection id must be kebab-case, got {args.id!r}")
+    for technique in args.techniques:
+        if not _TECHNIQUE_ID.match(technique):
+            raise CommandError(f"--technique must look like T1003.001, got {technique!r}")
+        if technique not in stage.techniques:
+            raise CommandError(
+                f"technique {technique} is not listed for stage {stage.id} in detections.yaml"
+            )
+    title = " ".join(args.title.split())
+    if not title:
+        raise CommandError("--title must not be empty")
+    try:
+        round_trip = yaml.safe_load(f"title: {title}")
+    except yaml.YAMLError:
+        round_trip = None
+    if round_trip != {"title": title}:
+        raise CommandError(f"--title {args.title!r} does not survive as a YAML value; simplify it")
+
     slice_spec: dict[str, list[int]] = {}
     for chunk in args.slices:
         source, _, codes_raw = chunk.partition("=")
@@ -204,7 +229,7 @@ def _command_new(model: Model, args: argparse.Namespace) -> int:
 
     entry_lines = [
         f"  - id: {args.id}",
-        f"    title: {args.title}",
+        f"    title: {title}",
         f"    rule: rules/{args.id}.spl",
         f"    stage: {stage.id}",
         f"    attack: [{', '.join(args.techniques)}]",
@@ -230,24 +255,36 @@ def _append_detection(yaml_path: Path, entry_lines: list[str]) -> None:
     text = yaml_path.read_text(encoding="utf-8")
     lines = text.splitlines()
 
+    inserted = False
     for i, line in enumerate(lines):
         if line.strip() == "detections: []":
             lines[i : i + 1] = ["detections:", *entry_lines]
-            yaml_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-            return
+            inserted = True
+            break
 
-    for i, line in enumerate(lines):
-        if line.rstrip() == "detections:":
-            j = i + 1
-            while j < len(lines) and (lines[j].startswith("  ") or not lines[j].strip()):
-                j += 1
-            lines[j:j] = entry_lines
-            yaml_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-            return
+    if not inserted:
+        for i, line in enumerate(lines):
+            if line.rstrip() == "detections:":
+                j = i + 1
+                while j < len(lines) and (lines[j].startswith("  ") or not lines[j].strip()):
+                    j += 1
+                lines[j:j] = entry_lines
+                inserted = True
+                break
 
-    raise CommandError(
-        "could not find a 'detections:' section in detections.yaml; add the entry by hand"
-    )
+    if not inserted:
+        raise CommandError(
+            "could not find a 'detections:' section in detections.yaml; add the entry by hand"
+        )
+
+    new_text = "\n".join(lines) + "\n"
+    try:
+        yaml.safe_load(new_text)
+    except yaml.YAMLError as exc:
+        raise CommandError(
+            f"refusing to write detections.yaml: the new entry would corrupt it: {exc}"
+        ) from exc
+    yaml_path.write_text(new_text, encoding="utf-8")
 
 
 _HANDLERS = {

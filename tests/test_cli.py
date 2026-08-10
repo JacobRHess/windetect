@@ -120,13 +120,13 @@ def test_new_scaffolds_detection(make_root, capsys):
         "--root",
         str(root),
         "new",
-        "uac-bypass-lineage",
+        "lsass-dump-lineage",
         "--stage",
         "03",
         "--title",
-        "UAC bypass process lineage",
+        "LSASS dump process lineage",
         "--technique",
-        "T1548.002",
+        "T1003.001",
         "--slice",
         "sysmon=1",
         "--slice",
@@ -134,16 +134,16 @@ def test_new_scaffolds_detection(make_root, capsys):
     )
     assert rc == 0
     out = capsys.readouterr().out
-    assert "added uac-bypass-lineage" in out
+    assert "added lsass-dump-lineage" in out
 
     model = load_model(root)
-    (detection,) = [d for d in model.detections if d.id == "uac-bypass-lineage"]
+    (detection,) = [d for d in model.detections if d.id == "lsass-dump-lineage"]
     assert detection.slice == {"sysmon": (1,), "security": (4688,)}
-    assert detection.attack == ("T1548.002",)
+    assert detection.attack == ("T1003.001",)
 
     assert run_cli("--root", str(root), "validate") == 1
-    (root / "rules" / "uac-bypass-lineage.spl").write_text(
-        'EventCode=1 ParentImage="C:\\Windows\\System32\\fodhelper.exe"', encoding="utf-8"
+    (root / "rules" / "lsass-dump-lineage.spl").write_text(
+        'EventCode=1 ParentImage="C:\\Windows\\System32\\rundll32.exe"', encoding="utf-8"
     )
     assert run_cli("--root", str(root), "validate") == 0
 
@@ -204,6 +204,28 @@ def test_new_unknown_stage_fails(make_root, capsys):
     )
     assert rc == 1
     assert "unknown stage" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize(
+    ("bad_args", "message"),
+    [
+        (("Bad_Id", "--title", "t", "--technique", "T1003.001"), "kebab-case"),
+        (("x", "--title", "t", "--technique", "t1003"), "T1003.001"),
+        (("x", "--title", "t", "--technique", "T1548.002"), "not listed for stage"),
+        (("x", "--title", "  ", "--technique", "T1003.001"), "must not be empty"),
+        (("x", "--title", "colon: title", "--technique", "T1003.001"), "YAML"),
+        (("x", "--title", "[flow]", "--technique", "T1003.001"), "YAML"),
+    ],
+)
+def test_new_invalid_input_rejected_before_write(make_root, capsys, bad_args, message):
+    root = make_root()
+    before = (root / "detections.yaml").read_text(encoding="utf-8")
+    rc = run_cli("--root", str(root), "new", bad_args[0], "--stage", "03", *bad_args[1:])
+    assert rc == 1
+    assert message in capsys.readouterr().err
+    # The file the tool would have corrupted is untouched and still loads.
+    assert (root / "detections.yaml").read_text(encoding="utf-8") == before
+    load_model(root)
 
 
 @pytest.mark.parametrize("bad_slice", ["netflow=10", "sysmon=", "sysmon=x"])

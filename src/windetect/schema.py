@@ -57,6 +57,8 @@ class SchemaError(ValueError):
 
 
 def validate_event(event: dict[str, Any], ctx: str) -> None:
+    if not isinstance(event, dict):
+        raise SchemaError(f"{ctx}: event must be a JSON object, got {type(event).__name__}")
     for field in _COMMON:
         if field not in event:
             raise SchemaError(f"{ctx}: missing required field {field!r}")
@@ -73,9 +75,13 @@ def validate_event(event: dict[str, Any], ctx: str) -> None:
     if not isinstance(timestamp, str):
         raise SchemaError(f"{ctx}: _time must be an ISO-8601 string")
     try:
-        datetime.fromisoformat(timestamp)
+        parsed = datetime.fromisoformat(timestamp)
     except ValueError as exc:
         raise SchemaError(f"{ctx}: _time does not parse as ISO-8601: {timestamp!r}") from exc
+    # Naive timestamps would be read in the local machine timezone at replay,
+    # indexing the same fixture at different times on different hosts.
+    if parsed.tzinfo is None:
+        raise SchemaError(f"{ctx}: _time must carry a UTC offset: {timestamp!r}")
 
     for field in _REQUIRED.get((sourcetype, event_code), ()):
         if field not in event:

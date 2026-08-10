@@ -44,7 +44,7 @@ _DASHBOARD = """\
       <title>Telemetry by sourcetype (last 24h)</title>
       <chart>
         <search>
-          <query>| tstats count where index=windetect by sourcetype</query>
+          <query>| tstats count where index={index} by sourcetype</query>
           <earliest>-24h</earliest>
           <latest>now</latest>
         </search>
@@ -97,8 +97,10 @@ def _saved_search(detection: Detection, search: str) -> str:
         f"description = {title}\n"
         "cron_schedule = */10 * * * *\n"
         "enableSched = 1\n"
-        "dispatch.earliest_time = -15m\n"
-        "dispatch.latest_time = now\n"
+        # Minute-aligned window matching the cron period, so consecutive runs
+        # neither overlap (double alerts) nor leave gaps.
+        "dispatch.earliest_time = -10m@m\n"
+        "dispatch.latest_time = @m\n"
         "counttype = number of events\n"
         "relation = greater than\n"
         "quantity = 0\n"
@@ -126,5 +128,5 @@ def build_app(model: Model, out_dir: Path, *, index: str = DEFAULT_INDEX) -> Pat
     (default / "savedsearches.conf").write_text(
         render_savedsearches(model, rules, index=index), encoding="utf-8"
     )
-    (views / "windetect_coverage.xml").write_text(_DASHBOARD, encoding="utf-8")
+    (views / "windetect_coverage.xml").write_text(_DASHBOARD.format(index=index), encoding="utf-8")
     return out_dir

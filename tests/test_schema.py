@@ -52,6 +52,16 @@ def test_non_string_time_fails():
         validate_event(make_event(_time=1754252649), "ctx")
 
 
+def test_naive_time_fails():
+    with pytest.raises(SchemaError, match="UTC offset"):
+        validate_event(make_event(_time="2026-08-03T20:24:09.123456"), "ctx")
+
+
+def test_non_object_event_fails():
+    with pytest.raises(SchemaError, match="JSON object"):
+        validate_events([5], "ctx")
+
+
 def test_unparseable_time_fails():
     with pytest.raises(SchemaError, match="does not parse as ISO-8601"):
         validate_event(make_event(_time="not-a-date"), "ctx")
